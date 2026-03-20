@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3-Tier Docker App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .loading {
+      color: orange;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1> Docker 3-Tier Application</h1>
+  <p>Frontend → Nginx → Backend → MySQL</p>
+
+  <button onclick="fetchData()">Call Backend API</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function fetchData() {
+      const result = document.getElementById('result');
+
+      result.innerText = " Loading...";
+      result.className = "loading";
+
+      try {
+        const response = await fetch('/api');
+
+        if (!response.ok) {
+          throw new Error("API Error");
+        }
+
+        const data = await response.json();
+
+        result.innerText = " " + JSON.stringify(data);
+        result.className = "";
+
+      } catch (error) {
+        result.innerText = " Failed to fetch data";
+        result.className = "error";
+      }
+    }
+  </script>
+
+</body>
+</html>
